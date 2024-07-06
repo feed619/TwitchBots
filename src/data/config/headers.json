@@ -1,0 +1,20 @@
+{
+  "accept": "*/*",
+  "accept-language": "ru-RU",
+  "authorization": "OAuth tnou992rlkgmjzhvxmchh34ug9vxk0",
+  "client-id": "kimne78kx3ncx6brgo4mv6wki5h1ko",
+  "client-integrity": "v4.local.QDh-SY2c4uUPubGD4Ok3p0ZHvhCFZsueS8ncfouUSsAOc89y2m5IYFwD45z-6IFdBFyuNS76C5Aty7hl6HszyhTzsPOX8ykGDl5L6AT7XttIMKHpmZ43TzitCICB_ArWDLFA6Zbv-z2sv8JaHQD5cw5KilI4fGgv4C_OB5oIBJ_H0NRSoeTT-pVpZUdx5VldyA2xNZShbEWtyEYtjXmC9aDt7g_fPQXf7r-iC1-5HbyqZO9dtFnZhSmj03mNebox0AvGMm-a_6CFQuKpeFcGhuLLLPMfHla_2dnC_bahG0mJ72Nvyp4tKg-QWdvxtvtOKQTcglwMpNeSS9loqL57-osjWNsi9xeQC366mKbs5uAWxZpiBdfMno0GhnYdF2fVHM8o0Bji7mtW_hQN8BjNAZZS2e171znHQKiNw-pcoEOXHR1mkjf6nAmcJ2DntpPhO_nlsL8jIkBRBtE",
+  "client-session-id": "614cea397ec1c0e0",
+  "client-version": "dd256bc3-d4f3-4295-b1f6-04529af81cd6",
+  "content-type": "text/plain;charset=UTF-8",
+  "origin": "https://www.twitch.tv",
+  "referer": "https://www.twitch.tv/",
+  "sec-ch-ua": "Opera GX;v='109', 'Not:A-Brand';v='8', 'Chromium';v='123'",
+  "sec-ch-ua-mobile": "?0",
+  "sec-ch-ua-platform": "'Windows'",
+  "sec-fetch-dest": "empty",
+  "sec-fetch-mode": "cors",
+  "sec-fetch-site": "same-site",
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 OPR/109.0.0.0",
+  "x-device-id": "hpVvuVNGTkDey1hxg1Sd2OtnGJJbFwmW"
+}

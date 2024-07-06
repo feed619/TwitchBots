@@ -1,1 +1,3 @@
-data/config/
+.venv
+venv
+src/data/config/

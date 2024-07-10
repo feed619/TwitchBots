@@ -4,6 +4,12 @@
   "files.associations": {
     "qapplication": "cpp",
     "qpalette": "cpp",
-    "qwidget": "cpp"
+    "qwidget": "cpp",
+    "new": "cpp",
+    "*.tcc": "cpp",
+    "deque": "cpp",
+    "list": "cpp",
+    "string": "cpp",
+    "vector": "cpp"
   }
 }

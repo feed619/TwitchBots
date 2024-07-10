@@ -2,18 +2,23 @@
 #define _SOURCE_
 
 #include <QWidget>
-#include <QPalette>
-// #include <QApplication>
+#include <QObject>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QApplication>
 class Source
 {
+
     // private:
 public:
     // QApplication *app;
     QWidget *window;
-    QPalette *palette;
+    QVBoxLayout *vbox;
 
     int width = 800;
     int height = 600;
+
+    void create_buttons();
 
 public:
     Source(/* args */);

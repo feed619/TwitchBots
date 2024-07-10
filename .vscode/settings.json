@@ -1,3 +1,9 @@
 {
-  "cmake.sourceDirectory": "C:/Проекты/TwitchBots/widget"
+  "cmake.sourceDirectory": "C:/Проекты/TwitchBots/widget",
+  "C_Cpp.errorSquiggles": "disabled",
+  "files.associations": {
+    "qapplication": "cpp",
+    "qpalette": "cpp",
+    "qwidget": "cpp"
+  }
 }

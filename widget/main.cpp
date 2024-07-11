@@ -16,8 +16,12 @@
 // }
 
 #include "widget.h"
+#include "source/api.h"
+
+
 int main(int argc, char *argv[])
 {
+    Api ap;
     QApplication app(argc, argv);
     Widget window;
     window.setWindowTitle("Блокировка и удаление обработчика");

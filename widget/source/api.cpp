@@ -35,7 +35,11 @@ void Api::SendData()
     QUrl url("http://127.0.0.1:5000/api/sent_data");
 
 
-    connect(manager, &QNetworkAccessManager::finished, this, &Api::onDataFetched);
+    connect(manager, &QNetworkAccessManager::finished, this, [this](QNetworkReply *reply) {
+        this->onDataFetched(reply);
+        // Разрываем соединение после первого вызова
+        disconnect(manager, &QNetworkAccessManager::finished, this, nullptr);
+    });
     // Создаем запрос
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");

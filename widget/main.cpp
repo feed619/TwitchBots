@@ -24,8 +24,8 @@ int main(int argc, char *argv[])
     Api ap;
     QApplication app(argc, argv);
     Widget window;
-    window.setWindowTitle("Блокировка и удаление обработчика");
-    window.resize(350, 150);
+    window.setWindowTitle("TwitchBots");
+    window.resize(600, 800);
     window.show();
     return app.exec();
 }

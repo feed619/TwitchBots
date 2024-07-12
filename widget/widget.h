@@ -2,6 +2,10 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QList>
+#include "jsonkeyvalue.h"
+#include <QTreeWidget>
+#include <QMessageBox>
 
 
 QT_BEGIN_NAMESPACE
@@ -21,13 +25,35 @@ private slots:
     void on_ButtonClear_clicked();
     void on_checkBoxAntiBot_clicked();
 
+    // void on_ButtonAdd_Channel_clicked();
+
+
+    void on_ButtonAdd_Channel_clicked();
+    void on_ButtonDeleteChannel_clicked();
+
+    void on_ButtonAddAcc_clicked();
+
+    void on_ButtonDeleteAcc_clicked();
+
+    void on_ButtonDeletePaste_clicked();
+
+    void on_ButtonAddPaste_clicked();
+
 private:
     bool AntiBot = true;
     int sleep = 0;
     Ui::widget *ui;
-
-
+    void fillAllTree();
     void ConnectAllButtons();
     void addItems_comboBox();
+
+    void AddDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QString key,QString value);
+    void DeleteDataTreeWidget(QTreeWidgetItem *item,QList<JsonKeyValue*>* qlist);
+
+    void LoadDataTreeWidget(QString fileName);
+
+    QList<JsonKeyValue*>* qlistJsonAcc;
+    QList<JsonKeyValue*>* qlistJsonChannel;
+    QList<JsonKeyValue*>* qlistJsonPaste;
 };
 #endif // WIDGET_H

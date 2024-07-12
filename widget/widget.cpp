@@ -1,41 +1,52 @@
 #include "widget.h"
-Widget::Widget(QWidget *parent)
+#include "./ui_widget.h"
+
+widget::widget(QWidget *parent)
     : QWidget(parent)
+    , ui(new Ui::widget)
 {
-    btn1 = new QPushButton("Получить");
-    btn2 = new QPushButton("Отправить");
-
-    lineEdit = new QLineEdit(this);/*
-    lineEdit->setGeometry(QRect(QPoint(10, 10), QSize(580, 200)));*/
-
-
-
-    vbox = new QVBoxLayout();
-    vbox->addWidget(btn2);
-    vbox->addWidget(btn1);
-
-    setLayout(vbox);
-    connect(btn1, SIGNAL(clicked()),
-            this, SLOT(on_btn1_clicked()));
-    connect(btn2, SIGNAL(clicked()),
-            this, SLOT(on_btn2_clicked()));
-
+    ui->setupUi(this);
+    ui->comboBox->addItem("asd");
+}
+widget::~widget()
+{
+    delete ui;
 }
 
-void Widget::setText(const QString &text)
+void widget::addItems_comboBox()
 {
-    qDebug() << "Text changed:" << text;
+    ui->treeWidgetPaste->selectedItems()[0];
 }
+void widget::ConnectAllButtons()
+{
+    connect(ui->ButtonClear, SIGNAL(clicked()),
+            this, SLOT(on_ButtonClear_clicked()));
 
-void Widget::on_btn1_clicked()
-{
-    api_net.GetData();
-    qDebug() << "Нажата кнопка 1";
 }
-void Widget::on_btn2_clicked()
+void widget::on_ButtonClear_clicked()
 {
-    api_net.SendData();
-    qDebug() << "Нажата кнопка 2";
-}
+    ui->messageText->clear();
+    qDebug() << "поле очищено";
+    qDebug() <<ui->treeWidgetPaste->currentColumn();
+    qDebug() <<ui->treeWidgetPaste->selectedItems();
+    qDebug() <<ui->treeWidgetPaste->currentItem();
+    qDebug() <<ui->treeWidgetPaste->currentItem();
+    qDebug() <<ui->treeWidgetPaste->currentItem();
+    qDebug() <<ui->treeWidgetPaste->currentItem();
 
-Widget::~Widget() {}
+}
+void widget::on_ButtonSend_clicked()
+{
+    // api_net.GetData();
+    sleep = ui->spinBoxSleep->text().toInt();
+    QString text = ui->messageText->toPlainText();
+    // qDebug() << "Вы поставили время ожидания "<< sleep;
+    qDebug() << "сообщение "<<text<<" отправлено время ожидания"<<sleep<<"антибот"<<AntiBot;
+}
+void widget::on_checkBoxAntiBot_clicked()
+{
+    AntiBot = ui->checkBoxAntiBot->checkState();
+    if(AntiBot)
+    qDebug() << "вы активировали антибот"<< AntiBot;
+    else    qDebug() << "вы диактивировали антибот"<< AntiBot;
+}

@@ -1,30 +1,33 @@
 #ifndef WIDGET_H
 #define WIDGET_H
-#include <QApplication>
 
 #include <QWidget>
-#include <QLineEdit>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include "source/api.h"
-class Widget : public QWidget
+
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class widget; }
+QT_END_NAMESPACE
+
+class widget : public QWidget
 {
     Q_OBJECT
-public:
-    Api api_net;
-    Widget(QWidget *parent=nullptr);
-    ~Widget();
 
+public:
+    widget(QWidget *parent = nullptr);
+    ~widget();
 private slots:
-    void setText(const QString &text);
-    void on_btn1_clicked();
-    void on_btn2_clicked();
+
+    void on_ButtonSend_clicked();
+    void on_ButtonClear_clicked();
+    void on_checkBoxAntiBot_clicked();
 
 private:
-    QLineEdit *lineEdit;
-    QPushButton *btn1;
-    QPushButton *btn2;
-    QVBoxLayout *vbox;
+    bool AntiBot = true;
+    int sleep = 0;
+    Ui::widget *ui;
 
+
+    void ConnectAllButtons();
+    void addItems_comboBox();
 };
-#endif
+#endif // WIDGET_H

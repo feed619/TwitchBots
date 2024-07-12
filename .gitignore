@@ -2,6 +2,6 @@
 .venv
 venv
 
-src/data/config/
+src/config/
 build-widget-Desktop_Qt_6_6_3_MinGW_64_bit-Debug
 widget2

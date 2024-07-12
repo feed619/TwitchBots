@@ -38,6 +38,11 @@
        <height>531</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
     </widget>
     <widget class="QCheckBox" name="checkBoxAntiBot">
      <property name="geometry">
@@ -45,7 +50,7 @@
        <x>680</x>
        <y>10</y>
        <width>211</width>
-       <height>41</height>
+       <height>51</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -121,7 +126,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Marker Felt</family>
+       <family>Segoe UI</family>
        <pointsize>12</pointsize>
        <bold>true</bold>
       </font>
@@ -131,6 +136,9 @@
      </property>
     </widget>
     <widget class="QProgressBar" name="progressBarSendMassage">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>700</x>
@@ -155,7 +163,7 @@
       <set>Qt::ImhNone</set>
      </property>
      <property name="value">
-      <number>24</number>
+      <number>0</number>
      </property>
      <property name="textVisible">
       <bool>false</bool>
@@ -175,7 +183,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Marker Felt</family>
+       <family>Segoe UI</family>
        <pointsize>12</pointsize>
        <bold>true</bold>
       </font>
@@ -359,19 +367,29 @@
       </property>
       <property name="font">
        <font>
-        <family>Marker Felt</family>
+        <family>Segoe UI</family>
         <pointsize>10</pointsize>
-        <bold>true</bold>
+        <bold>false</bold>
        </font>
       </property>
       <column>
        <property name="text">
         <string>Nickname</string>
        </property>
+       <property name="font">
+        <font>
+         <bold>true</bold>
+        </font>
+       </property>
       </column>
       <column>
        <property name="text">
         <string>Ссылка</string>
+       </property>
+       <property name="font">
+        <font>
+         <bold>true</bold>
+        </font>
        </property>
       </column>
       <item>
@@ -394,9 +412,9 @@
       </property>
       <property name="font">
        <font>
-        <family>Marker Felt</family>
+        <family>Segoe UI</family>
         <pointsize>12</pointsize>
-        <bold>true</bold>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -414,9 +432,9 @@
       </property>
       <property name="font">
        <font>
-        <family>Marker Felt</family>
+        <family>Segoe UI</family>
         <pointsize>12</pointsize>
-        <bold>true</bold>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -464,19 +482,29 @@
       </property>
       <property name="font">
        <font>
-        <family>Marker Felt</family>
+        <family>Segoe UI</family>
         <pointsize>10</pointsize>
-        <bold>true</bold>
+        <bold>false</bold>
        </font>
       </property>
       <column>
        <property name="text">
         <string>Nickname</string>
        </property>
+       <property name="font">
+        <font>
+         <bold>true</bold>
+        </font>
+       </property>
       </column>
       <column>
        <property name="text">
         <string>Ссылка</string>
+       </property>
+       <property name="font">
+        <font>
+         <bold>true</bold>
+        </font>
        </property>
       </column>
       <item>
@@ -499,9 +527,9 @@
       </property>
       <property name="font">
        <font>
-        <family>Marker Felt</family>
+        <family>Segoe UI</family>
         <pointsize>12</pointsize>
-        <bold>true</bold>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -519,9 +547,9 @@
       </property>
       <property name="font">
        <font>
-        <family>Marker Felt</family>
+        <family>Segoe UI</family>
         <pointsize>12</pointsize>
-        <bold>true</bold>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -569,19 +597,29 @@
       </property>
       <property name="font">
        <font>
-        <family>Marker Felt</family>
+        <family>Segoe UI</family>
         <pointsize>10</pointsize>
-        <bold>true</bold>
+        <bold>false</bold>
        </font>
       </property>
       <column>
        <property name="text">
         <string>Название</string>
        </property>
+       <property name="font">
+        <font>
+         <bold>true</bold>
+        </font>
+       </property>
       </column>
       <column>
        <property name="text">
         <string>Паста</string>
+       </property>
+       <property name="font">
+        <font>
+         <bold>true</bold>
+        </font>
        </property>
       </column>
       <item>
@@ -612,9 +650,9 @@
       </property>
       <property name="font">
        <font>
-        <family>Marker Felt</family>
+        <family>Segoe UI</family>
         <pointsize>12</pointsize>
-        <bold>true</bold>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -632,9 +670,9 @@
       </property>
       <property name="font">
        <font>
-        <family>Marker Felt</family>
+        <family>Segoe UI</family>
         <pointsize>12</pointsize>
-        <bold>true</bold>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">

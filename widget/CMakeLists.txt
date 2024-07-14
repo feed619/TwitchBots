@@ -23,8 +23,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(widget
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        optionwidget.h optionwidget.cpp
+
         jsonkeyvalue.h jsonkeyvalue.cpp
+        tools/JsonKeyValue.h tools/JsonKeyValue.cpp
 
     )
 # Define target properties for Android with Qt 6 as:

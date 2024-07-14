@@ -1,6 +1,6 @@
 #include "widget.h"
 #include "./ui_widget.h"
-#include <QFile>
+
 widget::widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::widget)
@@ -12,10 +12,16 @@ widget::widget(QWidget *parent)
     qlistJsonChannel = new QList<JsonKeyValue*>;
     qlistJsonPaste = new QList<JsonKeyValue*>;
 
-
+    LoadDataTreeWidget(ui->treeWidgetAcc,qlistJsonAcc,F_ACC);
+    LoadDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,F_CHANNEL);
+    LoadDataTreeWidget(ui->treeWidgetPaste,qlistJsonPaste,F_PASTE);
 }
 widget::~widget()
 {
+    SaveDataTreeWidget(qlistJsonAcc,"treeAcc");
+    SaveDataTreeWidget(qlistJsonChannel,"treeChannel");
+    SaveDataTreeWidget(qlistJsonPaste,"treePaste");
+
     delete ui;
 }
 
@@ -59,6 +65,8 @@ void widget::on_ButtonAddAcc_clicked()
     QString key = "popop";
     QString value = "чтотото";
     AddDataTreeWidget(ui->treeWidgetAcc,qlistJsonAcc,key,value);
+
+    // LoadDataTreeWidget(qlistJsonAcc,"treeAcc.txt");
 }
 
 void widget::on_ButtonAdd_Channel_clicked()
@@ -72,6 +80,7 @@ void widget::on_ButtonAddPaste_clicked()
     QString key = "golovach";
     QString value = "👆Попадаю в модера - получаю пермач. На мужика 👇";
     AddDataTreeWidget(ui->treeWidgetPaste,qlistJsonPaste,key,value);
+    SaveDataTreeWidget(qlistJsonPaste,"treeAcc.txt");
 }
 
 
@@ -85,8 +94,6 @@ void widget::on_ButtonDeleteAcc_clicked()
     }
     else qDebug() <<"Выберите что удалить";
 }
-
-
 void widget::on_ButtonDeleteChannel_clicked()
 {
     QTreeWidgetItem *item = ui->treeWidgetChanel->currentItem();
@@ -111,9 +118,54 @@ void widget::on_ButtonDeletePaste_clicked()
 }
 
 
-void widget::LoadDataTreeWidget(QString fileName)
+void widget::LoadDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QString fileName)
+{
+    QString data;
+    QString dirParh = QDir::currentPath();
+    QString path = dirParh+"/../widget/data/"+fileName;
+    QFile file(path);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Cannot open file for reading:" << file.errorString();
+        return;
+    }
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        if (line.size())
+        {
+            for(int index = 0;index<line.size();index++)
+            {
+                if(line[index] == '\t')
+                {
+                    QString key = line.mid(0,index);
+                    QString value = line.mid(index+1,line.size());
+                    AddDataTreeWidget(tree,qlist,key,value);
+                }
+            }
+        }
+    }
+}
+void widget::SaveDataTreeWidget(QList<JsonKeyValue*>* json,QString fileName)
 {
 
+    QString dataTree;
+
+    for (JsonKeyValue* jsonData:*json)
+    {
+        dataTree+=jsonData->getKey()+"\t"+jsonData->getValue()+"\n";
+    }
+
+    QString dirParh = QDir::currentPath();
+    QString path = dirParh+"/../widget/data/"+fileName;
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+        return;
+    }
+    QTextStream out(&file);
+    out << dataTree;
+    file.close();
 }
 
 void widget::AddDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QString key,QString value)

@@ -392,14 +392,6 @@
         </font>
        </property>
       </column>
-      <item>
-       <property name="text">
-        <string>Головач</string>
-       </property>
-       <property name="text">
-        <string>https://www.twitch.tv/lenagol0vach</string>
-       </property>
-      </item>
      </widget>
      <widget class="QPushButton" name="ButtonAddAcc">
       <property name="geometry">
@@ -507,14 +499,6 @@
         </font>
        </property>
       </column>
-      <item>
-       <property name="text">
-        <string>Головач</string>
-       </property>
-       <property name="text">
-        <string>https://www.twitch.tv/lenagol0vach</string>
-       </property>
-      </item>
      </widget>
      <widget class="QPushButton" name="ButtonAdd_Channel">
       <property name="geometry">
@@ -622,22 +606,6 @@
         </font>
        </property>
       </column>
-      <item>
-       <property name="text">
-        <string>Головач</string>
-       </property>
-       <property name="text">
-        <string>головач топ</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>sas</string>
-       </property>
-       <property name="text">
-        <string>sdsdsds</string>
-       </property>
-      </item>
      </widget>
      <widget class="QPushButton" name="ButtonAddPaste">
       <property name="geometry">

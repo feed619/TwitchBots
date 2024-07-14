@@ -3,11 +3,15 @@
 
 #include <QWidget>
 #include <QList>
-#include "jsonkeyvalue.h"
+#include "tools/JsonKeyValue.h"
 #include <QTreeWidget>
 #include <QMessageBox>
+#include <QFile>
+#include <QDir>
 
-
+#define F_ACC "treeAcc"
+#define F_CHANNEL "treeChannel"
+#define F_PASTE "treePaste"
 QT_BEGIN_NAMESPACE
 namespace Ui { class widget; }
 QT_END_NAMESPACE
@@ -50,8 +54,8 @@ private:
     void AddDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QString key,QString value);
     void DeleteDataTreeWidget(QTreeWidgetItem *item,QList<JsonKeyValue*>* qlist);
 
-    void LoadDataTreeWidget(QString fileName);
-
+    void LoadDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QString fileName);
+    void SaveDataTreeWidget(QList<JsonKeyValue*>* json,QString fileName);
     QList<JsonKeyValue*>* qlistJsonAcc;
     QList<JsonKeyValue*>* qlistJsonChannel;
     QList<JsonKeyValue*>* qlistJsonPaste;

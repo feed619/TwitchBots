@@ -173,7 +173,6 @@ void widget::AddDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QSt
 
     for(JsonKeyValue* json:*qlist)
     {
-        qDebug() <<json->getKey();
         if(json->getKey() == key)
         {
             QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");

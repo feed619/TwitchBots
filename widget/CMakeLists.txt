@@ -24,7 +24,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
 
-        jsonkeyvalue.h jsonkeyvalue.cpp
+
         tools/JsonKeyValue.h tools/JsonKeyValue.cpp
 
     )

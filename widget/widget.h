@@ -1,15 +1,17 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
-#include <QWidget>
-#include <QList>
 #include <QTreeWidget>
 #include <QMessageBox>
+#include <QWidget>
+#include <QList>
 #include <QFile>
 #include <QDir>
 
 #include "tools/JsonKeyValue.h"
 #include "tools/Data.h"
+#include "tools/dialog.h"
+#include "client/api.h"
 
 #define F_ACC "treeAcc"
 #define F_CHANNEL "treeChannel"
@@ -43,7 +45,7 @@ private slots:
 private:
     bool AntiBot = true;
     int sleep = 0;
-
+    Api api;
     Ui::widget *ui;
 
     QList<JsonKeyValue*>* qlistJsonAcc;

@@ -1,7 +1,7 @@
 #include "Data.h"
 
 Data::Data() {}
-void Data::LoadDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QString fileName)
+void Data::LoadDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QString fileName,QComboBox* box)
 {
     QString data;
     QString dirParh = QDir::currentPath();
@@ -23,7 +23,7 @@ void Data::LoadDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QStr
                 {
                     QString key = line.mid(0,index);
                     QString value = line.mid(index+1,line.size());
-                    AddDataTreeWidget(tree,qlist,key,value);
+                    AddDataTreeWidget(tree,qlist,key,value,box);
                 }
             }
         }
@@ -53,7 +53,7 @@ void Data::SaveDataTreeWidget(QList<JsonKeyValue*>* json,QString fileName)
 }
 
 
-bool Data::AddDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QString key,QString value)
+bool Data::AddDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QString key,QString value,QComboBox* box)
 {
 
     for(JsonKeyValue* json:*qlist)
@@ -71,10 +71,13 @@ bool Data::AddDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QStri
     item->setText(1,value);
     tree->addTopLevelItem(item);
 
+    if(box)
+        box->addItem(key);
+
     return false;
 }
 
-void Data::DeleteDataTreeWidget(QTreeWidgetItem *item,QList<JsonKeyValue*>* qlist)
+void Data::DeleteDataTreeWidget(QTreeWidgetItem *item,QList<JsonKeyValue*>* qlist,QComboBox* box)
 {
     int x =0;
     QList<JsonKeyValue*>::iterator it;
@@ -84,6 +87,10 @@ void Data::DeleteDataTreeWidget(QTreeWidgetItem *item,QList<JsonKeyValue*>* qlis
         {
             qlist->removeAt(x);
             delete item;
+
+            if(box)
+                box->removeItem(x);
+
             return;
         }
         x++;

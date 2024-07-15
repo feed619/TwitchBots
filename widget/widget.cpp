@@ -6,15 +6,14 @@ widget::widget(QWidget *parent)
     , ui(new Ui::widget)
 {
     ui->setupUi(this);
-    ui->comboBox->addItem("asd");
 
     qlistJsonAcc = new QList<JsonKeyValue*>;
     qlistJsonChannel = new QList<JsonKeyValue*>;
     qlistJsonPaste = new QList<JsonKeyValue*>;
 
     Data::LoadDataTreeWidget(ui->treeWidgetAcc,qlistJsonAcc,F_ACC);
-    Data::LoadDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,F_CHANNEL);
-    Data::LoadDataTreeWidget(ui->treeWidgetPaste,qlistJsonPaste,F_PASTE);
+    Data::LoadDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,F_CHANNEL,ui->BoxChannel);
+    Data::LoadDataTreeWidget(ui->treeWidgetPaste,qlistJsonPaste,F_PASTE,ui->BoxPaste);
 }
 widget::~widget()
 {
@@ -49,25 +48,57 @@ void widget::on_checkBoxAntiBot_clicked()
 
 void widget::on_ButtonAddAcc_clicked()
 {
-    QString key = "popop";
-    QString value = "чтотото";
-    if(Data::AddDataTreeWidget(ui->treeWidgetAcc,qlistJsonAcc,key,value))
-        QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
+    QString key;
+    QString value;
+
+    Dialog dialog("Добавить Аккаунт","Логин","Пороль",this);
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        key = dialog.getTitle();
+        value = dialog.getText();
+    }
+    if(key.size()>0 and value.size()>0)
+        if(Data::AddDataTreeWidget(ui->treeWidgetAcc,qlistJsonAcc,key,value))
+            QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
 }
 
 void widget::on_ButtonAdd_Channel_clicked()
 {
-    QString key = "golovach";
-    QString value = "pastaaasdasda sdasdasd";
-    if (Data::AddDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,key,value))
-        QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
+    QString key;
+    QString value;
+
+    Dialog dialog("Добавить Канал","Название канала",this);
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        key = dialog.getTitle();
+    }
+    if(key.size()>0)
+    {
+        // QJsonObject data;
+        // data["channel"] = "golovachhh";
+        value = api.GetChannelID(key);
+        qDebug() <<value;
+        // api.sendPostRequest(data);
+        // qDebug() <<data;
+        // api.GetData();
+        if (Data::AddDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,key,value,ui->BoxChannel))
+            QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
+    }
 }
 void widget::on_ButtonAddPaste_clicked()
 {
-    QString key = "golovach";
-    QString value = "👆Попадаю в модера - получаю пермач. На мужика 👇";
-    if (Data::AddDataTreeWidget(ui->treeWidgetPaste,qlistJsonPaste,key,value))
-        QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
+    QString key;
+    QString value;
+
+    Dialog dialog("Добавить Пасту","Название","Текст пасты",this);
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        key = dialog.getTitle();
+        value = dialog.getText();
+    }
+    if(key.size()>0 and value.size()>0)
+        if (Data::AddDataTreeWidget(ui->treeWidgetPaste,qlistJsonPaste,key,value,ui->BoxPaste))
+            QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
 }
 
 
@@ -86,7 +117,7 @@ void widget::on_ButtonDeleteChannel_clicked()
     QTreeWidgetItem *item = ui->treeWidgetChanel->currentItem();
     if(item)
     {
-        Data::DeleteDataTreeWidget(item,qlistJsonChannel);
+        Data::DeleteDataTreeWidget(item,qlistJsonChannel,ui->BoxChannel);
         qDebug()<< "Удалил ключ "<<item->text(0);
     }
     else qDebug() <<"Выберите что удалить";
@@ -98,7 +129,7 @@ void widget::on_ButtonDeletePaste_clicked()
     {
         QString st =  "вы хотите удалить "+item->text(1);
         QMessageBox::warning(this, "Повторение!", st);
-        Data::DeleteDataTreeWidget(item,qlistJsonPaste);
+        Data::DeleteDataTreeWidget(item,qlistJsonPaste,ui->BoxPaste);
         qDebug()<< "Удалил ключ "<<item->text(0);
     }
     else qDebug() <<"Выберите что удалить";

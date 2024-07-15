@@ -204,11 +204,11 @@
        <height>81</height>
       </rect>
      </property>
-     <widget class="QLabel" name="labelNameSelectChannel">
+     <widget class="QLabel" name="labelNameAddPaste">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>10</y>
+        <y>0</y>
         <width>211</width>
         <height>31</height>
        </rect>
@@ -221,7 +221,7 @@
        </font>
       </property>
       <property name="text">
-       <string>выбрать канал</string>
+       <string>добавить пасту</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -230,11 +230,11 @@
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBoxAddPaste">
+     <widget class="QComboBox" name="BoxPaste">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>40</y>
+        <y>30</y>
         <width>201</width>
         <height>31</height>
        </rect>
@@ -305,11 +305,11 @@
        <height>81</height>
       </rect>
      </property>
-     <widget class="QLabel" name="labelNameAddPaste">
+     <widget class="QLabel" name="labelNameSelectChannel">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>10</y>
+        <y>0</y>
         <width>211</width>
         <height>31</height>
        </rect>
@@ -322,7 +322,7 @@
        </font>
       </property>
       <property name="text">
-       <string>добавить пасту</string>
+       <string>выбрать канал</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -331,11 +331,11 @@
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="BoxChannel">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>40</y>
+        <y>30</y>
         <width>201</width>
         <height>31</height>
        </rect>
@@ -481,7 +481,7 @@
       </property>
       <column>
        <property name="text">
-        <string>Nickname</string>
+        <string>Название</string>
        </property>
        <property name="font">
         <font>
@@ -491,7 +491,7 @@
       </column>
       <column>
        <property name="text">
-        <string>Ссылка</string>
+        <string>id канала</string>
        </property>
        <property name="font">
         <font>

@@ -26,6 +26,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
 
         tools/JsonKeyValue.h tools/JsonKeyValue.cpp
+        tools/Data.h tools/Data.cpp
 
     )
 # Define target properties for Android with Qt 6 as:

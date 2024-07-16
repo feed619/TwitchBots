@@ -7,6 +7,8 @@
 #include <QNetworkRequest>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QEventLoop>
+#include <QTimer>
 #include <QUrl>
 
 class Api : public QObject
@@ -21,7 +23,10 @@ public:
     QString GetChannelID(QString channelName);
     void sendPostRequest(const QJsonObject &data);
 private:
+    QString data;
     QNetworkAccessManager *manager;
+
+    void delay(int milliseconds);
 };
 
 #endif // API_H

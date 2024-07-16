@@ -74,15 +74,13 @@ void widget::on_ButtonAdd_Channel_clicked()
     }
     if(key.size()>0)
     {
-        // QJsonObject data;
-        // data["channel"] = "golovachhh";
+
         value = api.GetChannelID(key);
-        qDebug() <<value;
-        // api.sendPostRequest(data);
-        // qDebug() <<data;
-        // api.GetData();
-        if (Data::AddDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,key,value,ui->BoxChannel))
-            QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
+        if(value.size())
+        {
+            if (Data::AddDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,key,value,ui->BoxChannel))
+                QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
+        }
     }
 }
 void widget::on_ButtonAddPaste_clicked()

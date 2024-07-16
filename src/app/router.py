@@ -21,13 +21,15 @@ def get_data_2():
     return jsonify(data)
 
 
-@router_get_data_to_sent.route('/api/get_id', methods=['POST'])
+@router_get_data_to_sent.route('/api/get_id', methods=['GET'])
 def send_id():
-    data = request.get_json()  # Получите данные из запроса
-    response = {
-        'status': 'success',
-        'channel': data.get("channel"),
-        "id": "123123"
-    }
-    print(data)
-    return jsonify(response)
+    # data = request.get_json()  # Получите данные из запроса
+    # response = {
+    #     'status': 'success',
+    #     'channel': data.get("channel"),
+    #     "id": "123123"
+    # }
+    # print(data)
+    # return jsonify(response)
+    data = {"message": "Golovach"}
+    return jsonify(data)

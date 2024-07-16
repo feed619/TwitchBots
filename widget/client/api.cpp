@@ -25,21 +25,34 @@ void Api::onDataFetched(QNetworkReply *reply) {
     reply->deleteLater();
 }
 
-QString Api::GetChannelID(QString channelName)
+QString* Api::GetChannelID(QString channelName)
 {
+    QUrlQuery queryParams;
+    queryParams.addQueryItem("channel_name", channelName);
+
+    QUrl qurl("http://127.0.0.1:5000/api/get_id");
+    qurl.setQuery(queryParams);
+    qDebug() << qurl;
     connect(manager, &QNetworkAccessManager::finished, this, [this](QNetworkReply *reply) {
         this->onDataFetched(reply);
         disconnect(manager, &QNetworkAccessManager::finished, this, nullptr);
     });
 
-    QNetworkRequest request(QUrl("http://127.0.0.1:5000/api/get_id"));
+    QNetworkRequest request(qurl);
     manager->get(request);
 
-    while(!data.size())
-    {
-        delay(1000);
-    }
-    return data;
+    // int sec=0;
+    // while(!data.size())
+    // {
+    //     if (sec >70)
+    //     {
+    //         qDebug() <<"Истекло время ожидания";
+    //         break;
+    //     }
+    //     delay(1000);
+    //     sec++;
+    // }
+    return &data;
 }
 
 

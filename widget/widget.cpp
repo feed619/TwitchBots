@@ -32,7 +32,7 @@ void widget::on_ButtonClear_clicked()
 }
 void widget::on_ButtonSend_clicked()
 {
-    // api_net.GetData();
+    api.GetData();
     sleep = ui->spinBoxSleep->text().toInt();
     QString text = ui->messageText->toPlainText();
     // qDebug() << "Вы поставили время ожидания "<< sleep;
@@ -61,6 +61,11 @@ void widget::on_ButtonAddAcc_clicked()
         if(Data::AddDataTreeWidget(ui->treeWidgetAcc,qlistJsonAcc,key,value))
             QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
 }
+void onTimeout() {
+    int a =1;
+
+    qDebug() << a<<"Timer timeout";
+}
 
 void widget::on_ButtonAdd_Channel_clicked()
 {
@@ -74,13 +79,40 @@ void widget::on_ButtonAdd_Channel_clicked()
     }
     if(key.size()>0)
     {
+        // QThread *workerThread = new QThread;
 
-        value = api.GetChannelID(key);
-        if(value.size())
-        {
-            if (Data::AddDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,key,value,ui->BoxChannel))
-                QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
-        }
+        // connect(workerThread, &QThread::started, Dialog("Добавить Канал","pokdsf",this), &Worker::doWork);
+
+        QTimer *timer = new QTimer(this);
+        connect(timer, &QTimer::timeout, this, onTimeout);
+        timer->start();  // Выполнять каждую секунду
+
+        QString* pvalue;
+        // QString* pvalue = api.GetChannelID(key);
+        // qDebug() <<pvalue;
+
+        // Dialog dialog("Добавить Канал","pokdsf",this);
+        // dialog.exec();
+        // int sec=0;
+
+        // while(!pvalue->size())
+        // while(sec<10)
+        // {
+        //     qDebug() <<"жду";
+        //     if (sec > 70)
+        //     {
+        //         qDebug() <<"Истекло время ожидания";
+        //         break;
+        //     }
+        //     delay(1000);
+        //     sec++;
+        // }
+
+        // if(pvalue->size() and *pvalue!="none")
+        // {
+        //     if (Data::AddDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,key,*pvalue,ui->BoxChannel))
+        //         QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
+        // }
     }
 }
 void widget::on_ButtonAddPaste_clicked()
@@ -133,4 +165,9 @@ void widget::on_ButtonDeletePaste_clicked()
     else qDebug() <<"Выберите что удалить";
 }
 
+void widget::delay(int milliseconds) {
+    QEventLoop loop;
+    QTimer::singleShot(milliseconds, &loop, &QEventLoop::quit);
+    loop.exec();
+}
 

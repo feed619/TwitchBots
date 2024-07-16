@@ -8,6 +8,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QEventLoop>
+#include <QUrlQuery>
 #include <QTimer>
 #include <QUrl>
 
@@ -20,7 +21,7 @@ public:
     void SendData();
     void GetData();
     void onDataFetched(QNetworkReply *reply);
-    QString GetChannelID(QString channelName);
+    QString* GetChannelID(QString channelName);
     void sendPostRequest(const QJsonObject &data);
 private:
     QString data;

@@ -4,6 +4,11 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QLabel>
+#include <QProgressBar>
+#include <QVBoxLayout>
+#include <QEventLoop>
+#include <QTimer>
 
 class Dialog : public QDialog
 {
@@ -12,6 +17,7 @@ class Dialog : public QDialog
 public:
     Dialog(QString dialogName,QString fLebelName,QString sLebelName,QWidget *parent = nullptr);
     Dialog(QString dialogName,QString fLebelName,QWidget *parent = nullptr);
+    Dialog(QString dialogName,QWidget *parent = nullptr);
     QString getTitle() const;
     QString getText() const;
 

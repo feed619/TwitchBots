@@ -7,6 +7,7 @@
 #include <QList>
 #include <QFile>
 #include <QDir>
+#include <QThread>
 
 #include "tools/JsonKeyValue.h"
 #include "tools/Data.h"
@@ -51,5 +52,7 @@ private:
     QList<JsonKeyValue*>* qlistJsonAcc;
     QList<JsonKeyValue*>* qlistJsonChannel;
     QList<JsonKeyValue*>* qlistJsonPaste;
+
+    void delay(int milliseconds);
 };
 #endif // WIDGET_H

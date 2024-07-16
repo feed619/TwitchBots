@@ -15,7 +15,7 @@ class SeleniumScrap:
     __options_default: list[str] = [
         f"--user-agent={UserAgent().random}",
         "--disable-blink-features=AutomationControlled",
-        "--headless",
+        # "--headless",
         "--disable-gpu",
         "--no-sandbox",
         "--disable-dev-shm-usage",

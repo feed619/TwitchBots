@@ -12,6 +12,8 @@
 #include <QTimer>
 #include <QUrl>
 
+#include "../tools/dialog.h"
+
 class Api : public QObject
 {
     Q_OBJECT

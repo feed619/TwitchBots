@@ -42,17 +42,21 @@ private slots:
     void on_ButtonDeleteAcc_clicked();
     void on_ButtonDeletePaste_clicked();
 
-
 private:
     bool AntiBot = true;
     int sleep = 0;
+    int secWait = 70;
+
     Api api;
     Ui::widget *ui;
+    Dialog*  dialogBar;
 
     QList<JsonKeyValue*>* qlistJsonAcc;
     QList<JsonKeyValue*>* qlistJsonChannel;
     QList<JsonKeyValue*>* qlistJsonPaste;
-
+    void onTimeout();
     void delay(int milliseconds);
 };
 #endif // WIDGET_H
+
+

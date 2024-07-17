@@ -20,6 +20,7 @@ Dialog::Dialog(QString dialogName,QString fLebelName,QString sLebelName,QWidget 
     okButton->setGeometry(QRect(QPoint(100, 150), QSize(100, 30)));
 
     connect(okButton, &QPushButton::clicked, this, &Dialog::accept);
+        qDebug() <<"1";
 }
 Dialog::Dialog(QString dialogName,QString fLebelName,QWidget *parent)
     : QDialog(parent)
@@ -35,6 +36,7 @@ Dialog::Dialog(QString dialogName,QString fLebelName,QWidget *parent)
 
     connect(okButton, &QPushButton::clicked, this, &Dialog::accept);
 
+    // this->exec();
 
 
 
@@ -55,31 +57,75 @@ Dialog::Dialog(QString dialogName,QString fLebelName,QWidget *parent)
     // }
 
 
-
+    qDebug() <<"2";
     // this->close();
 }
-Dialog::Dialog(QString dialogName,QWidget *parent)
-    : QDialog(parent)
+Dialog::Dialog(QString dialogName,int barSize,QString* data,QWidget *parent)
 {
     setWindowTitle(dialogName);
 
 
-    // QVBoxLayout *layout = new QVBoxLayout(this);
-    // QLabel *label = new QLabel("Please wait...", this);
-    // QProgressBar* progressBar = new QProgressBar(this);
-    // progressBar->setRange(0, 100);
-    // layout->addWidget(label);
-    // layout->addWidget(progressBar);
-    // setLayout(layout);
-}
-QString Dialog::getTitle() const
-{
-    return titleField->text();
+
+    okButton = new QPushButton("OK", this);
+    okButton->setGeometry(QRect(QPoint(100, 150), QSize(100, 30)));
+
+    connect(okButton, &QPushButton::clicked, this, &Dialog::accept);
+    qDebug() <<"3";
+
+
+    layout = new QVBoxLayout(this);
+    label = new QLabel("Please wait...", this);
+    progressBar = new QProgressBar(this);
+    progressBar->setRange(0, barSize);
+    layout->addWidget(label);
+    layout->addWidget(progressBar);
+    setLayout(layout);
+
+
+    // QThread *workerThread = new QThread;
+
+    // this->moveToThread(workerThread);
+    // connect(workerThread, &QThread::started, this, &Dialog::doWork);
+    //     connect(this, &Dialog::workFinished, workerThread, &QThread::quit);
+    //     this->exec();
+
+
+    //     progressBar->setValue(99);
+    // int sec=0;
+    // while(!pvalue->size())
+
+    // while(sec<5)
+    // {
+    //     QEventLoop en(this);
+    //     en.wakeUp();
+    //     this->update();
+    //     this->show();
+    //     progressBar->setValue(sec);
+    //     qDebug() <<"жду";
+    //     if (sec > 70)
+    //     {
+    //         qDebug() <<"Истекло время ожидания";
+    //         break;
+    //     }
+    //     QThread::sleep(1);
+    //     sec++;
+    // }
+
 }
 
-QString Dialog::getText() const
-{
-    return textField->text();
+Dialog::~Dialog() {
+  if (titleField)
+    delete titleField;
+  if (textField)
+    delete textField;
+  if (okButton)
+    delete okButton;
+  if (layout)
+    delete layout;
+  if (label)
+    delete label;
+  if (progressBar)
+    delete progressBar;
 }
 
 void Dialog::accept()

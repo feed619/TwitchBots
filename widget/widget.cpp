@@ -1,5 +1,24 @@
 #include "widget.h"
 #include "./ui_widget.h"
+void barUpdate(Dialog* dialogBar,int secWait, QString* value) {
+    int sec = 0;
+
+    while(!value->size())
+    // while(sec<5)
+    {
+        dialogBar->setBar(sec);
+        qDebug() <<"жду";
+        if (sec > secWait)
+        {
+            qDebug() <<"Истекло время ожидания";
+            break;
+        }
+        QThread::sleep(1);
+        sec++;
+    }
+    dialogBar->close();
+}
+
 
 widget::widget(QWidget *parent)
     : QWidget(parent)
@@ -61,10 +80,22 @@ void widget::on_ButtonAddAcc_clicked()
         if(Data::AddDataTreeWidget(ui->treeWidgetAcc,qlistJsonAcc,key,value))
             QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
 }
-void onTimeout() {
-    int a =1;
+void widget::onTimeout() {
+    int sec=0;
+    while(sec<10)
+    {
+        qDebug() <<"жду";
+        if (sec > 70)
+        {
+            qDebug() <<"Истекло время ожидания";
+            break;
+        }
+        QEventLoop loop;
+        QTimer::singleShot(1000, &loop, &QEventLoop::quit);
+        loop.exec();
+        sec++;
+    }
 
-    qDebug() << a<<"Timer timeout";
 }
 
 void widget::on_ButtonAdd_Channel_clicked()
@@ -81,38 +112,70 @@ void widget::on_ButtonAdd_Channel_clicked()
     {
         // QThread *workerThread = new QThread;
 
-        // connect(workerThread, &QThread::started, Dialog("Добавить Канал","pokdsf",this), &Worker::doWork);
+        // connect(workerThread, &QThread::started, Dialog("Добавить Канал","pokdsf"), &Dialog::doWork);
+        // Worker *worker = new Worker;
+        // Dialog* dialogBar = new Dialog("Добавить Канал","pokdsf");
+        // QThread *workerThread = new QThread;
 
-        QTimer *timer = new QTimer(this);
-        connect(timer, &QTimer::timeout, this, onTimeout);
-        timer->start();  // Выполнять каждую секунду
+        // dialogBar->moveToThread(workerThread);
+        // connect(workerThread, &QThread::started, dialogBar, &Dialog::doWork);
+        // connect(dialogBar, &Dialog::workFinished, workerThread, &QThread::quit);
+        // dialogBar->exec();
 
-        QString* pvalue;
-        // QString* pvalue = api.GetChannelID(key);
-        // qDebug() <<pvalue;
+        // QTimer *timer = new QTimer(this);
+        // connect(timer, &QTimer::timeout, this, widget::onTimeout);
+        // timer->setSingleShot(true);
+        // timer->start();  // Выполнять каждую секунду
 
-        // Dialog dialog("Добавить Канал","pokdsf",this);
-        // dialog.exec();
+        // QString* pvalue;
+
+
+
+        QString* pvalue = api.GetChannelID(key);
+        Dialog* dialogBar = new Dialog("Добавить Канал",secWait,pvalue);
+        std::thread tr(barUpdate, dialogBar,secWait,pvalue);
+
+        dialogBar->exec();
+        tr.join();
+
+
+
+        // QThread* thread = new QThread();
+        //  Dialog* dialogBar = new Dialog("Добавить Канал",pvalue);
+
+        // dialogBar->moveToThread(thread);
+
+        // QObject::connect(thread, &QThread::started, dialogBar, &Dialog::doWork);
+        // QObject::connect(thread, &QThread::finished, dialogBar, &QObject::deleteLater);
+
+        // thread->start();
+
+        // dialogBar->exec();
+
+        // dialogBar->show();
+        // dialogBar->exec();
+
         // int sec=0;
-
-        // while(!pvalue->size())
-        // while(sec<10)
+        // // while(!pvalue->size())
+        // while(sec<5)
         // {
+        //     dialogBar->show();
         //     qDebug() <<"жду";
         //     if (sec > 70)
         //     {
         //         qDebug() <<"Истекло время ожидания";
         //         break;
         //     }
-        //     delay(1000);
+        //     QThread::sleep(1);
         //     sec++;
         // }
 
-        // if(pvalue->size() and *pvalue!="none")
-        // {
-        //     if (Data::AddDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,key,*pvalue,ui->BoxChannel))
-        //         QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
-        // }
+
+        if(pvalue->size() and *pvalue!="none")
+        {
+            if (Data::AddDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,key,*pvalue,ui->BoxChannel))
+                QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
+        }
     }
 }
 void widget::on_ButtonAddPaste_clicked()

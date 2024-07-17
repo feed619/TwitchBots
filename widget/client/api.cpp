@@ -41,17 +41,7 @@ QString* Api::GetChannelID(QString channelName)
     QNetworkRequest request(qurl);
     manager->get(request);
 
-    // int sec=0;
-    // while(!data.size())
-    // {
-    //     if (sec >70)
-    //     {
-    //         qDebug() <<"Истекло время ожидания";
-    //         break;
-    //     }
-    //     delay(1000);
-    //     sec++;
-    // }
+
     return &data;
 }
 

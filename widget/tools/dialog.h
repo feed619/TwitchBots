@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 #include <QEventLoop>
 #include <QTimer>
+#include <QThread>
 
 class Dialog : public QDialog
 {
@@ -17,17 +18,28 @@ class Dialog : public QDialog
 public:
     Dialog(QString dialogName,QString fLebelName,QString sLebelName,QWidget *parent = nullptr);
     Dialog(QString dialogName,QString fLebelName,QWidget *parent = nullptr);
-    Dialog(QString dialogName,QWidget *parent = nullptr);
-    QString getTitle() const;
-    QString getText() const;
+    Dialog(QString dialogName,int barSize,QString* data,QWidget *parent = nullptr);
+    ~Dialog();
+    QString getTitle() const{return titleField->text();}
+    QString getText() const {return textField->text();}
+    void setBar(int value){progressBar->setValue(value);}
+
+
 
 private slots:
     void accept();
-
+public slots:
+    void doWork(){qDebug() <<"asd";}
+signals:
+    void workFinished();
 private:
-    QLineEdit *titleField;
-    QLineEdit *textField;
-    QPushButton *okButton;
+    QLineEdit *titleField = nullptr;
+    QLineEdit *textField = nullptr;
+    QPushButton *okButton = nullptr;
+    QVBoxLayout *layout = nullptr;
+    QLabel *label = nullptr;
+    QProgressBar* progressBar = nullptr;
+
 };
 
 #endif // DIALOG_H

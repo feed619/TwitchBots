@@ -199,7 +199,7 @@
      <property name="geometry">
       <rect>
        <x>680</x>
-       <y>440</y>
+       <y>400</y>
        <width>211</width>
        <height>81</height>
       </rect>
@@ -221,7 +221,7 @@
        </font>
       </property>
       <property name="text">
-       <string>добавить пасту</string>
+       <string>         пасты</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -235,9 +235,29 @@
        <rect>
         <x>0</x>
         <y>30</y>
-        <width>201</width>
+        <width>121</width>
         <height>31</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="addPaste">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>30</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Segoe UI</family>
+        <pointsize>11</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>добавить</string>
       </property>
      </widget>
     </widget>
@@ -300,7 +320,7 @@
      <property name="geometry">
       <rect>
        <x>680</x>
-       <y>360</y>
+       <y>320</y>
        <width>211</width>
        <height>81</height>
       </rect>
@@ -341,6 +361,25 @@
        </rect>
       </property>
      </widget>
+    </widget>
+    <widget class="QLabel" name="sizeText">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>500</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>символов 0</string>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="options">
@@ -384,7 +423,7 @@
       </column>
       <column>
        <property name="text">
-        <string>Ссылка</string>
+        <string>auth-token</string>
        </property>
        <property name="font">
         <font>

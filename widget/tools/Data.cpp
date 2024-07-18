@@ -96,3 +96,14 @@ void Data::DeleteDataTreeWidget(QTreeWidgetItem *item,QList<JsonKeyValue*>* qlis
         x++;
     }
 }
+
+QString Data::getCurrentData(QList<JsonKeyValue*>* qlist,QString key)
+{
+    for(JsonKeyValue* json:*qlist)
+    {
+        if(json->getKey() == key)
+        {
+            return json->getValue();
+        }
+    }
+}

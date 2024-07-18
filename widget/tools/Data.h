@@ -19,6 +19,8 @@ public:
     static bool  AddDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QString key,QString value,QComboBox* box=nullptr);
     static void  DeleteDataTreeWidget(QTreeWidgetItem *item,QList<JsonKeyValue*>* qlist,QComboBox* box=nullptr);
 
+    static QString getCurrentData(QList<JsonKeyValue*>* qlist,QString key);
+
 };
 
 #endif // DATA_H

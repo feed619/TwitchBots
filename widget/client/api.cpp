@@ -46,7 +46,7 @@ QString* Api::GetChannelID(QString channelName)
 }
 
 
-void Api::SendData()
+void Api::SendData(QJsonArray accArray,QString channelID,QString paste,int sleep)
 {
     QUrl url("http://127.0.0.1:5000/api/sent_data");
 
@@ -58,7 +58,10 @@ void Api::SendData()
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QJsonObject json;
-    json["data"] = "Golovach top data Golovach top";
+    json["accounts"] = accArray;
+    json["channel_id"] = channelID;
+    json["paste"] = paste;
+    json["sleep"] = sleep;
 
     QJsonDocument doc(json);
     QByteArray data = doc.toJson();

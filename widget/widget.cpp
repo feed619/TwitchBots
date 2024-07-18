@@ -16,6 +16,8 @@ void barUpdate(Dialog* dialogBar,int secWait, QString* value) {
         QThread::sleep(1);
         sec++;
     }
+    dialogBar->setBar(secWait);
+    QThread::sleep(1);
     dialogBar->close();
 }
 
@@ -51,11 +53,42 @@ void widget::on_ButtonClear_clicked()
 }
 void widget::on_ButtonSend_clicked()
 {
-    api.GetData();
-    sleep = ui->spinBoxSleep->text().toInt();
-    QString text = ui->messageText->toPlainText();
-    // qDebug() << "Вы поставили время ожидания "<< sleep;
-    qDebug() << "сообщение "<<text<<" отправлено время ожидания"<<sleep<<"антибот"<<AntiBot;
+    if(!ui->treeWidgetAcc->topLevelItemCount())
+    {
+        QMessageBox::warning(this, "Ошибка отправки", "Список акааунтов ПУСТ!");
+    }
+    else if(!ui->treeWidgetChanel->topLevelItemCount())
+    {
+        QMessageBox::warning(this, "Ошибка отправки", "Добавьте канал!");
+    }
+    else if(!ui->messageText->toPlainText().size())
+    {
+        QMessageBox::warning(this, "Ошибка отправки", "Поле сообщения ПУСТ!");
+    }
+    else if(ui->messageText->toPlainText().size() > 500)
+    {
+        QMessageBox::warning(this, "Ошибка отправки", "Сообщение превышает 500 символов!");
+    }
+    else
+    {
+        QJsonArray jsonArray;
+        for (JsonKeyValue* json : *qlistJsonAcc)
+        {
+            QJsonObject Json;
+            Json["name"] = json->getKey();
+            Json["token"] = json->getValue();
+            jsonArray.append(Json);
+
+        }
+        QString channelId = Data::getCurrentData(qlistJsonChannel,ui->BoxChannel->currentText());
+        QString paste = ui->messageText->toPlainText();
+        int sleep = ui->spinBoxSleep->text().toInt();
+
+        api.SendData(jsonArray,channelId,paste,sleep);
+
+        qDebug() << "сообщение "<<ui->messageText->toPlainText()<<" отправлено время ожидания"<<sleep<<"антибот"<<AntiBot;
+    }
+
 }
 void widget::on_checkBoxAntiBot_clicked()
 {
@@ -70,7 +103,7 @@ void widget::on_ButtonAddAcc_clicked()
     QString key;
     QString value;
 
-    Dialog dialog("Добавить Аккаунт","Логин","Пороль",this);
+    Dialog dialog("Добавить Аккаунт","Название","auth-token",this);
     if (dialog.exec() == QDialog::Accepted)
     {
         key = dialog.getTitle();
@@ -110,27 +143,6 @@ void widget::on_ButtonAdd_Channel_clicked()
     }
     if(key.size()>0)
     {
-        // QThread *workerThread = new QThread;
-
-        // connect(workerThread, &QThread::started, Dialog("Добавить Канал","pokdsf"), &Dialog::doWork);
-        // Worker *worker = new Worker;
-        // Dialog* dialogBar = new Dialog("Добавить Канал","pokdsf");
-        // QThread *workerThread = new QThread;
-
-        // dialogBar->moveToThread(workerThread);
-        // connect(workerThread, &QThread::started, dialogBar, &Dialog::doWork);
-        // connect(dialogBar, &Dialog::workFinished, workerThread, &QThread::quit);
-        // dialogBar->exec();
-
-        // QTimer *timer = new QTimer(this);
-        // connect(timer, &QTimer::timeout, this, widget::onTimeout);
-        // timer->setSingleShot(true);
-        // timer->start();  // Выполнять каждую секунду
-
-        // QString* pvalue;
-
-
-
         QString* pvalue = api.GetChannelID(key);
         Dialog* dialogBar = new Dialog("Добавить Канал",secWait,pvalue);
         std::thread tr(barUpdate, dialogBar,secWait,pvalue);
@@ -138,44 +150,16 @@ void widget::on_ButtonAdd_Channel_clicked()
         dialogBar->exec();
         tr.join();
 
-
-
-        // QThread* thread = new QThread();
-        //  Dialog* dialogBar = new Dialog("Добавить Канал",pvalue);
-
-        // dialogBar->moveToThread(thread);
-
-        // QObject::connect(thread, &QThread::started, dialogBar, &Dialog::doWork);
-        // QObject::connect(thread, &QThread::finished, dialogBar, &QObject::deleteLater);
-
-        // thread->start();
-
-        // dialogBar->exec();
-
-        // dialogBar->show();
-        // dialogBar->exec();
-
-        // int sec=0;
-        // // while(!pvalue->size())
-        // while(sec<5)
-        // {
-        //     dialogBar->show();
-        //     qDebug() <<"жду";
-        //     if (sec > 70)
-        //     {
-        //         qDebug() <<"Истекло время ожидания";
-        //         break;
-        //     }
-        //     QThread::sleep(1);
-        //     sec++;
-        // }
-
-
         if(pvalue->size() and *pvalue!="none")
         {
             if (Data::AddDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,key,*pvalue,ui->BoxChannel))
                 QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
         }
+        else if (*pvalue!="none")
+        {
+             QMessageBox::warning(this, "Ошибка!", "Не смог найти канал "+key);
+        }
+        pvalue=nullptr;
     }
 }
 void widget::on_ButtonAddPaste_clicked()
@@ -232,5 +216,21 @@ void widget::delay(int milliseconds) {
     QEventLoop loop;
     QTimer::singleShot(milliseconds, &loop, &QEventLoop::quit);
     loop.exec();
+}
+
+
+void widget::on_addPaste_clicked()
+{
+    QString text = ui->messageText->toPlainText();
+    ui->messageText->setPlainText(text+Data::getCurrentData(qlistJsonPaste,ui->BoxPaste->currentText()));
+}
+
+
+
+void widget::on_messageText_textChanged()
+{
+
+    int size = ui->messageText->toPlainText().size();
+    ui->sizeText->setText("символов "+QString::number(size));
 }
 

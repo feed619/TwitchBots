@@ -11,8 +11,7 @@
 #include <QUrlQuery>
 #include <QTimer>
 #include <QUrl>
-
-#include "../tools/dialog.h"
+#include <QJsonArray>
 
 class Api : public QObject
 {
@@ -20,7 +19,7 @@ class Api : public QObject
 
 public:
     explicit Api(QObject *parent = nullptr);
-    void SendData();
+    void SendData(QJsonArray accArray,QString ChannelID,QString Paste,int sleep);
     void GetData();
     void onDataFetched(QNetworkReply *reply);
     QString* GetChannelID(QString channelName);

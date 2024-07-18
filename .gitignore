@@ -5,4 +5,6 @@ venv
 src/config/
 build-widget-Desktop_Qt_6_6_3_MinGW_64_bit-Debug
 widget/CMakeLists.txt
+widget/data/treeAcc
+
 widget2

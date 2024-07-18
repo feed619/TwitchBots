@@ -42,6 +42,10 @@ private slots:
     void on_ButtonDeleteAcc_clicked();
     void on_ButtonDeletePaste_clicked();
 
+    void on_addPaste_clicked();
+
+    void on_messageText_textChanged();
+
 private:
     bool AntiBot = true;
     int sleep = 0;

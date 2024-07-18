@@ -20,12 +20,15 @@ class Api : public QObject
 public:
     explicit Api(QObject *parent = nullptr);
     void SendData(QJsonArray accArray,QString ChannelID,QString Paste,int sleep);
-    void GetData();
     void onDataFetched(QNetworkReply *reply);
-    QString* GetChannelID(QString channelName);
+    void GetChannelID(QString channelName);
+    void GetData();
     void sendPostRequest(const QJsonObject &data);
+    QNetworkReply *mainReply;
+    QJsonObject  jsonAnswer;
+    void onError();
 private:
-    QString data;
+    QString data =NULL;
     QNetworkAccessManager *manager;
 
     void delay(int milliseconds);

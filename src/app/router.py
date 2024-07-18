@@ -1,4 +1,5 @@
 # routes.py
+import time
 from flask import Blueprint, request, jsonify
 from source.channel_id import get_channel_id
 from source.send_message import send_message
@@ -13,10 +14,11 @@ def send_data():
         'status': 'success',
         'data_received': data
     }
-    send_message(data.get("accounts"), data.get("channel_id"),
-                 data.get("paste"), data.get("sleep"))
-    print("Готово")
-    return jsonify(response)
+    status_list = send_message(data.get("accounts"), data.get("channel_id"),
+                               data.get("paste"), data.get("sleep"))
+    print(status_list)
+    # return jsonify({"message": [{'name': 'bot 1', 'status_code': None}, {'name': 'bot 2', 'status_code': 'R9K_MODE'}]})
+    return jsonify({"message": status_list})
 
 
 @router_get_data_to_sent.route('/api/get_data', methods=['GET'])
@@ -30,4 +32,4 @@ def send_id():
     channel_name = request.args.get('channel_name')
     print(channel_name)
     channel_id = get_channel_id(channel_name)
-    return jsonify({"message": channel_id})
+    return jsonify({"channel_id": channel_id})

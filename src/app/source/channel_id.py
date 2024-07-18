@@ -21,7 +21,7 @@ def get_channel_id(channel_name: str) -> str:
     chanell_id = channel_id_box[0].text
 
     if chanell_id == "User not found..":
-        return "none"
+        return None
     return chanell_id
 
 

@@ -13,19 +13,26 @@ void Api::GetData() {
 
 }
 
+
 void Api::onDataFetched(QNetworkReply *reply) {
+    mainReply = reply;
     if (reply->error() == QNetworkReply::NoError) {
         QByteArray responseData = reply->readAll();
         QJsonDocument jsonDoc = QJsonDocument::fromJson(responseData);
         QJsonObject jsonObj = jsonDoc.object();
+        jsonAnswer=jsonObj;
         data=jsonObj["message"].toString();
     } else {
         qDebug() << "Error fetching data";
     }
     reply->deleteLater();
 }
-
-QString* Api::GetChannelID(QString channelName)
+void Api::onError()
+{
+    mainReply->deleteLater();
+    mainReply = nullptr;
+}
+void Api::GetChannelID(QString channelName)
 {
     QUrlQuery queryParams;
     queryParams.addQueryItem("channel_name", channelName);
@@ -40,20 +47,18 @@ QString* Api::GetChannelID(QString channelName)
 
     QNetworkRequest request(qurl);
     manager->get(request);
-
-
-    return &data;
+    // return &data;
 }
 
 
 void Api::SendData(QJsonArray accArray,QString channelID,QString paste,int sleep)
 {
     QUrl url("http://127.0.0.1:5000/api/sent_data");
-
     connect(manager, &QNetworkAccessManager::finished, this, [this](QNetworkReply *reply) {
         this->onDataFetched(reply);
         disconnect(manager, &QNetworkAccessManager::finished, this, nullptr);
     });
+
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
@@ -64,10 +69,9 @@ void Api::SendData(QJsonArray accArray,QString channelID,QString paste,int sleep
     json["sleep"] = sleep;
 
     QJsonDocument doc(json);
-    QByteArray data = doc.toJson();
+    QByteArray jsonData = doc.toJson();
 
-    manager->post(request, data);
-
+    manager->post(request, jsonData);
 }
 
 

@@ -18,7 +18,9 @@ class Dialog : public QDialog
 public:
     Dialog(QString dialogName,QString fLebelName,QString sLebelName,QWidget *parent = nullptr);
     Dialog(QString dialogName,QString fLebelName,QWidget *parent = nullptr);
-    Dialog(QString dialogName,int barSize,QString* data,QWidget *parent = nullptr);
+    Dialog(QString dialogName,int barSize,QWidget *parent = nullptr);
+
+
     ~Dialog();
     QString getTitle() const{return titleField->text();}
     QString getText() const {return textField->text();}

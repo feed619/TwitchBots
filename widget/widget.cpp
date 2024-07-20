@@ -1,21 +1,25 @@
 #include "widget.h"
 #include "./ui_widget.h"
+
+
+void showApp(Dialog* dialogBar)
+{
+    dialogBar->exec();
+}
 bool barUpdate(Dialog* dialogBar,int Wait, QJsonObject* asd,QNetworkReply* reply) {
     int sec = 0;
 
+    qDebug() <<*asd;
     while(asd->empty())
     // while(sec<5)
     {
         dialogBar->setBar(sec);
-        // qDebug() <<"жду" << *asd;
+        qDebug() <<"жду" << *asd;
         if (sec > Wait)
         {
-            // qDebug() <<"Истекло время ожидания";
             dialogBar->setBar(Wait);
             QThread::sleep(1);
             dialogBar->close();
-            // reply->abort();
-            qDebug() <<"Истекло время ожидания";
             return true;
         }
         QThread::sleep(1);
@@ -34,6 +38,12 @@ widget::widget(QWidget *parent)
     , ui(new Ui::widget)
 {
     ui->setupUi(this);
+    ui->checkBoxSub->setToolTip("подписаться на канал, если требуется подписка для отправки сообщений");
+    ui->checkBoxSplit->setToolTip("разбить сообщения знаком '^'");
+    ui->addSybSplit->setToolTip("добавить знак '^'");
+
+    ui->spinBoxSleep->setToolTip("время между сообщениями");
+    ui->ButtonSend->setToolTip("отправить сообщения");
 
     qlistJsonAcc = new QList<JsonKeyValue*>;
     qlistJsonChannel = new QList<JsonKeyValue*>;
@@ -45,9 +55,16 @@ widget::widget(QWidget *parent)
 }
 widget::~widget()
 {
+
     Data::SaveDataTreeWidget(qlistJsonAcc,F_ACC);
     Data::SaveDataTreeWidget(qlistJsonChannel,F_CHANNEL);
     Data::SaveDataTreeWidget(qlistJsonPaste,F_PASTE);
+    api.serverShutdown();
+    QThread::sleep(3);
+
+    delete qlistJsonAcc;
+    delete qlistJsonChannel;
+    delete qlistJsonPaste;
 
     delete ui;
 }
@@ -55,8 +72,6 @@ widget::~widget()
 void widget::on_ButtonClear_clicked()
 {
     ui->messageText->clear();
-    // qDebug() << "поле очищено";
-
 }
 void widget::on_ButtonSend_clicked()
 {
@@ -92,47 +107,58 @@ void widget::on_ButtonSend_clicked()
         QString channelId = Data::getCurrentData(qlistJsonChannel,ui->BoxChannel->currentText());
         QString paste = ui->messageText->toPlainText();
         int sleep = ui->spinBoxSleep->text().toInt();
-        int sec = count_acc*sleep;
+        int sec = count_acc*sleep + 1 ;
+        bool sub = ui->checkBoxSub->checkState();
+        bool split = ui->checkBoxSplit->checkState();
 
-        api.SendData(jsonArray,channelId,paste,sleep);
-        Dialog* dialogBar = new Dialog("Добавить Канал",10);
-        std::thread tr(barUpdate, dialogBar,10,&api.jsonAnswer,api.mainReply);
 
-        dialogBar->exec();
-        tr.join();
+        // Dialog* dialogBar = new Dialog("Подождите","идет отправка сообщений",sec);
+        // dialogBar->deleteLater();
+
+
+                // api.SendData(jsonArray,channelId,paste,sleep,sub,split);
+
+        // std::thread tr2(showApp, dialogBar);
+        // std::thread tr(barUpdate, dialogBar,sec,&api.jsonAnswer,api.mainReply);
+        api.SendDataWithDialog(jsonArray,channelId,paste,sleep,sub,split);
+
+        // dialogBar->exec();
+
+        // tr2.join();
+        // tr.join();
+        // delete dialogBar;
 
         QString textToShow="";
-        QJsonArray arrayAnswer = api.jsonAnswer["message"].toArray();
-        for (const QJsonValue &value : arrayAnswer) {
-            if (value.isObject()) {
-                QJsonObject obj = value.toObject();
-                QString name = obj["name"].toString();
-                QJsonValue statusCodeValue = obj["status_code"];
-
-                // qDebug() << "Name:" << name;
-
-                if (statusCodeValue.isNull()) {
-                    textToShow = textToShow+"\n"+name+" отправил успешно";
-                } else if (statusCodeValue.toString() == "R9K_MODE"){
-                    textToShow = textToShow+"\n"+name+" не смог отправить. Нужно подписаться на канал";
-                }
-                else
-                {
-                    textToShow = textToShow+"\n"+name+" ошибка отправки";
+        if (api.jsonAnswer.isEmpty())
+            qDebug() << "Не удалось отправить сообщения";
+        else
+        {
+            QJsonArray arrayAnswer = api.jsonAnswer["message"].toArray();
+            for (const QJsonValue &value : arrayAnswer) {
+                if (value.isObject()) {
+                    QJsonObject obj = value.toObject();
+                    QString name = obj["name"].toString();
+                    QJsonValue statusCodeValue = obj["status_code"];
+                    // qDebug() << "Name:" << name;
+                    if (statusCodeValue.isNull()) {
+                        textToShow = textToShow+"\n"+name+" Сообщение отправлено успешно";
+                    }
+                    else if (statusCodeValue.toString() == "R9K_MODE"){
+                        textToShow = textToShow+"\n"+name+" Не удалось отправить. Нужно подписаться на канал";
+                    }
+                    else if (statusCodeValue.toString() == "R9K_DONE"){
+                        textToShow = textToShow+"\n"+name+" Не удалось отправить. Нужно подписаться на канал, теперь подписан";
+                    }
+                    else{
+                        textToShow = textToShow+"\n"+name+" Ошибка отправки сообщения";
+                    }
                 }
             }
+            QMessageBox::warning(this, "Отправка сообщений!", textToShow);
+            api.jsonAnswer = QJsonObject();
         }
-        QMessageBox::warning(this, "Отправка!", textToShow);
-        api.jsonAnswer.empty();
     }
 
-}
-void widget::on_checkBoxAntiBot_clicked()
-{
-    AntiBot = ui->checkBoxAntiBot->checkState();
-    if(AntiBot)
-    qDebug() << "вы активировали антибот"<< AntiBot;
-    else    qDebug() << "вы диактивировали антибот"<< AntiBot;
 }
 
 void widget::on_ButtonAddAcc_clicked()
@@ -150,23 +176,6 @@ void widget::on_ButtonAddAcc_clicked()
         if(Data::AddDataTreeWidget(ui->treeWidgetAcc,qlistJsonAcc,key,value))
             QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
 }
-void widget::onTimeout() {
-    int sec=0;
-    while(sec<10)
-    {
-        qDebug() <<"жду";
-        if (sec > 70)
-        {
-            qDebug() <<"Истекло время ожидания";
-            break;
-        }
-        QEventLoop loop;
-        QTimer::singleShot(1000, &loop, &QEventLoop::quit);
-        loop.exec();
-        sec++;
-    }
-
-}
 
 void widget::on_ButtonAdd_Channel_clicked()
 {
@@ -180,25 +189,36 @@ void widget::on_ButtonAdd_Channel_clicked()
     }
     if(key.size()>0)
     {
-        api.GetChannelID(key);
-        Dialog* dialogBar = new Dialog("Добавить Канал",secWait);
-        std::thread tr(barUpdate, dialogBar,secWait,&api.jsonAnswer,api.mainReply);
+        api.GetChannelIDwithDialog(key);
 
-        dialogBar->exec();
-        tr.join();
+        // Dialog* dialogBar = new Dialog("Подождите","Идет поиск ID канала",secWait);
+        // dialogBar->deleteLater();
+        // std::thread tr(barUpdate, dialogBar,70,&api.jsonAnswer,api.mainReply);
 
-        QJsonValue answerValue = api.jsonAnswer.take("channel_id");
-        if(answerValue.isNull())
+        // dialogBar->exec();
+        // tr.join();
+        // delete dialogBar;
+
+        // qDebug() << api.jsonAnswer.empty();
+        if (api.jsonAnswer.isEmpty())
         {
-            QMessageBox::warning(this, "Ошибка!", "Не смог найти канал "+key);
+             QMessageBox::warning(this, "Ошибка!", "Ошибка при получении ID канала");
         }
-        else if(api.jsonAnswer.empty())
+        else
         {
-            value = answerValue.toString();
-            if (Data::AddDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,key,value,ui->BoxChannel))
-                QMessageBox::warning(this, "Повторение!", "Такой канал есть");
-        }
-        api.jsonAnswer.empty();
+            QJsonValue answerValue = api.jsonAnswer.take("channel_id");
+            if(answerValue.isNull())
+            {
+                QMessageBox::warning(this, "Ошибка!", "Не удалось найти канал "+key);
+            }
+            else if(answerValue.toString().length()>0)
+            {
+                value = answerValue.toString();
+                if (Data::AddDataTreeWidget(ui->treeWidgetChanel,qlistJsonChannel,key,value,ui->BoxChannel))
+                    QMessageBox::warning(this, "Повторение!", "Такой канал есть");
+            }
+            api.jsonAnswer = QJsonObject();
+    }
     }
 }
 void widget::on_ButtonAddPaste_clicked()
@@ -224,9 +244,7 @@ void widget::on_ButtonDeleteAcc_clicked()
     if(item)
     {
         Data::DeleteDataTreeWidget(item,qlistJsonAcc);
-        qDebug()<< "Удалил ключ "<<item->text(0);
     }
-    else qDebug() <<"Выберите что удалить";
 }
 void widget::on_ButtonDeleteChannel_clicked()
 {
@@ -234,27 +252,15 @@ void widget::on_ButtonDeleteChannel_clicked()
     if(item)
     {
         Data::DeleteDataTreeWidget(item,qlistJsonChannel,ui->BoxChannel);
-        qDebug()<< "Удалил ключ "<<item->text(0);
     }
-    else qDebug() <<"Выберите что удалить";
 }
 void widget::on_ButtonDeletePaste_clicked()
 {
     QTreeWidgetItem *item = ui->treeWidgetPaste->currentItem();
     if(item)
     {
-        QString st =  "вы хотите удалить "+item->text(1);
-        QMessageBox::warning(this, "Повторение!", st);
         Data::DeleteDataTreeWidget(item,qlistJsonPaste,ui->BoxPaste);
-        qDebug()<< "Удалил ключ "<<item->text(0);
     }
-    else qDebug() <<"Выберите что удалить";
-}
-
-void widget::delay(int milliseconds) {
-    QEventLoop loop;
-    QTimer::singleShot(milliseconds, &loop, &QEventLoop::quit);
-    loop.exec();
 }
 
 
@@ -265,11 +271,20 @@ void widget::on_addPaste_clicked()
 }
 
 
-
 void widget::on_messageText_textChanged()
 {
 
     int size = ui->messageText->toPlainText().size();
     ui->sizeText->setText("символов "+QString::number(size));
+}
+
+
+void widget::on_addSybSplit_clicked()
+{
+    ui->messageText->setText(ui->messageText->toPlainText()+"^");
+    if(!ui->checkBoxSplit->checkState())
+        ui->checkBoxSplit->click();
+    ui->messageText->setFocus();
+    ui->messageText->moveCursor(QTextCursor::End);
 }
 

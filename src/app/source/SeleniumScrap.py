@@ -63,7 +63,9 @@ class SeleniumScrap:
     def get_driver(self) -> Driver:
         return self.__driver
 
-    def __call__(self, url: str = "", *args: typing.Any, **kwds: typing.Any) -> typing.Any:
+    def __call__(
+        self, url: str = "", *args: typing.Any, **kwds: typing.Any
+    ) -> typing.Any:
         self._url = url
         self.__driver.get(url=url)
 

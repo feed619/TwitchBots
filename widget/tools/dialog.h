@@ -18,7 +18,7 @@ class Dialog : public QDialog
 public:
     Dialog(QString dialogName,QString fLebelName,QString sLebelName,QWidget *parent = nullptr);
     Dialog(QString dialogName,QString fLebelName,QWidget *parent = nullptr);
-    Dialog(QString dialogName,int barSize,QWidget *parent = nullptr);
+    Dialog(QString dialogName,QString lebelName,int barSize,QWidget *parent = nullptr);
 
 
     ~Dialog();
@@ -40,6 +40,7 @@ private:
     QPushButton *okButton = nullptr;
     QVBoxLayout *layout = nullptr;
     QLabel *label = nullptr;
+public:
     QProgressBar* progressBar = nullptr;
 
 };

@@ -3,13 +3,11 @@
 Data::Data() {}
 void Data::LoadDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QString fileName,QComboBox* box)
 {
-    QString data;
     QString dirParh = QDir::currentPath();
     QString path = dirParh+"/../widget/data/"+fileName;
     QFile file(path);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Cannot open file for reading:" << file.errorString();
         return;
     }
     QTextStream in(&file);
@@ -43,7 +41,7 @@ void Data::SaveDataTreeWidget(QList<JsonKeyValue*>* json,QString fileName)
     QString path = dirParh+"/../widget/data/"+fileName;
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "Не смог открыть";
+        // qDebug() << "Не смог открыть";
         // QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
         return;
     }
@@ -60,7 +58,7 @@ bool Data::AddDataTreeWidget(QTreeWidget* tree,QList<JsonKeyValue*>* qlist,QStri
     {
         if(json->getKey() == key)
         {
-            qDebug() << "Такой шаблон есть, выберите другое имя";
+            // qDebug() << "Такой шаблон есть, выберите другое имя";
             // QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
             return true;
         }
@@ -106,4 +104,6 @@ QString Data::getCurrentData(QList<JsonKeyValue*>* qlist,QString key)
             return json->getValue();
         }
     }
+
+    return "";
 }

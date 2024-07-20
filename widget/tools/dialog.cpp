@@ -36,17 +36,15 @@ Dialog::Dialog(QString dialogName,QString fLebelName,QWidget *parent)
     connect(okButton, &QPushButton::clicked, this, &Dialog::accept);
 
 }
-Dialog::Dialog(QString dialogName,int barSize,QWidget *parent)
+Dialog::Dialog(QString dialogName,QString lebelName,int barSize,QWidget *parent)
 {
     setWindowTitle(dialogName);
 
-    okButton = new QPushButton("OK", this);
-    okButton->setGeometry(QRect(QPoint(100, 150), QSize(100, 30)));
 
     connect(okButton, &QPushButton::clicked, this, &Dialog::accept);
 
     layout = new QVBoxLayout(this);
-    label = new QLabel("Please wait...", this);
+    label = new QLabel(lebelName, this);
     progressBar = new QProgressBar(this);
     progressBar->setRange(0, barSize);
     layout->addWidget(label);

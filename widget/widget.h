@@ -5,8 +5,6 @@
 #include <QMessageBox>
 #include <QWidget>
 #include <QList>
-#include <QFile>
-#include <QDir>
 #include <QThread>
 
 #include "tools/JsonKeyValue.h"
@@ -32,19 +30,15 @@ private slots:
 
     void on_ButtonSend_clicked();
     void on_ButtonClear_clicked();
-    void on_checkBoxAntiBot_clicked();
-
     void on_ButtonAdd_Channel_clicked();
     void on_ButtonAddAcc_clicked();
     void on_ButtonAddPaste_clicked();
-
     void on_ButtonDeleteChannel_clicked();
     void on_ButtonDeleteAcc_clicked();
     void on_ButtonDeletePaste_clicked();
-
     void on_addPaste_clicked();
-
     void on_messageText_textChanged();
+    void on_addSybSplit_clicked();
 
 private:
     bool AntiBot = true;
@@ -58,8 +52,6 @@ private:
     QList<JsonKeyValue*>* qlistJsonAcc;
     QList<JsonKeyValue*>* qlistJsonChannel;
     QList<JsonKeyValue*>* qlistJsonPaste;
-    void onTimeout();
-    void delay(int milliseconds);
 };
 #endif // WIDGET_H
 

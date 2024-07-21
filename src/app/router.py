@@ -23,8 +23,8 @@ def send_data():
         data.get("sub"),
         data.get("split"),
     )
-    time.sleep(5)
-    print(status_list)
+    # time.sleep(5)
+    # print(status_list)
     # return jsonify({"message": [{'name': 'bot 1', 'status_code': None}, {'name': 'bot 2', 'status_code': 'R9K_MODE'}]})
     return jsonify({"message": status_list})
 
@@ -46,5 +46,5 @@ def send_id():
 
 @router_get_data_to_sent.route("/shutdown", methods=["GET"])
 def shutdown():
-    os.kill(os.getpid(), signal.SIGINT)
+    # os.kill(os.getpid(), signal.SIGINT)
     return "Server shutting down..."

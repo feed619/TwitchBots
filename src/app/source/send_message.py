@@ -33,7 +33,8 @@ def send_message(
             .get("sendChatMessage")
             .get("dropReason"),
         }
-        if sub and status_code_acc.get("status_code" == "R9K_MODE"):
+        if sub and (status_code_acc.get("status_code") == "FOLLOWERS_ONLY"):
+            # print("tyt")
             data = temp_data_sub(channel_id)
             response = requests.post(
                 "https://gql.twitch.tv/gql", headers=headers, data=data

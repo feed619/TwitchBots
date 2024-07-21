@@ -143,7 +143,7 @@ void widget::on_ButtonSend_clicked()
                     if (statusCodeValue.isNull()) {
                         textToShow = textToShow+"\n"+name+" Сообщение отправлено успешно";
                     }
-                    else if (statusCodeValue.toString() == "R9K_MODE"){
+                    else if (statusCodeValue.toString() == "FOLLOWERS_ONLY"){
                         textToShow = textToShow+"\n"+name+" Не удалось отправить. Нужно подписаться на канал";
                     }
                     else if (statusCodeValue.toString() == "R9K_DONE"){

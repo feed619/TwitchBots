@@ -38,7 +38,7 @@ widget::widget(QWidget *parent)
     , ui(new Ui::widget)
 {
     ui->setupUi(this);
-    ui->checkBoxSub->setToolTip("подписаться на канал, если требуется подписка для отправки сообщений");
+    // ui->checkBoxSub->setToolTip("подписаться на канал, если требуется подписка для отправки сообщений");
     ui->checkBoxSplit->setToolTip("разбить сообщения знаком '^'");
     ui->addSybSplit->setToolTip("добавить знак '^'");
 
@@ -99,7 +99,7 @@ void widget::on_ButtonSend_clicked()
         {
             QJsonObject Json;
             Json["name"] = json->getKey();
-            Json["token"] = json->getValue();
+            Json["auth"] = json->getValue();
             jsonArray.append(Json);
             count_acc++;
 
@@ -108,7 +108,8 @@ void widget::on_ButtonSend_clicked()
         QString paste = ui->messageText->toPlainText();
         int sleep = ui->spinBoxSleep->text().toInt();
         int sec = count_acc*sleep + 1 ;
-        bool sub = ui->checkBoxSub->checkState();
+        // bool sub = ui->checkBoxSub->checkState();
+        bool sub = false;
         bool split = ui->checkBoxSplit->checkState();
 
 
@@ -164,17 +165,24 @@ void widget::on_ButtonSend_clicked()
 void widget::on_ButtonAddAcc_clicked()
 {
     QString key;
-    QString value;
+    QString value,auth_token,client_integrity,client_session_id;
 
-    Dialog dialog("Добавить Аккаунт","Название","auth-token",this);
+    // Dialog dialog("Добавить Аккаунт","Название","auth-token",this);
+        Dialog dialog("Добавить Аккаунт","Название","auth-token",this);
     if (dialog.exec() == QDialog::Accepted)
     {
         key = dialog.getTitle();
-        value = dialog.getText();
+        auth_token = dialog.getText();
+        // client_integrity =dialog.getText2();
+        // client_session_id =dialog.getText3();
+
     }
-    if(key.size()>0 and value.size()>0)
-        if(Data::AddDataTreeWidget(ui->treeWidgetAcc,qlistJsonAcc,key,value))
+    if(key.size()>0 and auth_token.size()>0)
+    {
+        // value = auth_token+"$"+client_integrity+"$"+client_session_id;
+        if(Data::AddDataTreeWidget(ui->treeWidgetAcc,qlistJsonAcc,key,auth_token))
             QMessageBox::warning(this, "Повторение!", "Такой шаблон есть, выберите другое имя");
+    }
 }
 
 void widget::on_ButtonAdd_Channel_clicked()

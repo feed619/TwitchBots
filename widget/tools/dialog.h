@@ -17,6 +17,7 @@ class Dialog : public QDialog
 
 public:
     Dialog(QString dialogName,QString fLebelName,QString sLebelName,QWidget *parent = nullptr);
+    Dialog(QString dialogName,QString fLebelName,QString Str1LebelName,QString Str2LebelName,QString Str3LebelName,QWidget *parent = nullptr);
     Dialog(QString dialogName,QString fLebelName,QWidget *parent = nullptr);
     Dialog(QString dialogName,QString lebelName,int barSize,QWidget *parent = nullptr);
 
@@ -24,6 +25,8 @@ public:
     ~Dialog();
     QString getTitle() const{return titleField->text();}
     QString getText() const {return textField->text();}
+    QString getText2() const {return textField2->text();}
+    QString getText3() const {return textField3->text();}
     void setBar(int value){progressBar->setValue(value);}
 
 
@@ -37,6 +40,8 @@ signals:
 private:
     QLineEdit *titleField = nullptr;
     QLineEdit *textField = nullptr;
+        QLineEdit *textField2 = nullptr;
+        QLineEdit *textField3 = nullptr;
     QPushButton *okButton = nullptr;
     QVBoxLayout *layout = nullptr;
     QLabel *label = nullptr;

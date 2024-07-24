@@ -1,8 +1,16 @@
-def temp_headers(auth_token: str):
+import requests
+
+
+def temp_headers(auth: str):
+    auth_list = auth.split("&")
     headers = {
         "accept": "*/*",
         "accept-language": "ru-RU",
-        "authorization": f"OAuth {auth_token}",
+        "authorization": f"OAuth {auth_list[0]}",
+        'client-id': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
+        'client-integrity': '',
+        'client-session-id': '',
+        'client-version': 'cfa6de7d-a3d8-4fbe-9182-65e8bdd07a8d',
         "content-type": "text/plain;charset=UTF-8",
         "origin": "https://www.twitch.tv",
         "referer": "https://www.twitch.tv/",
@@ -30,12 +38,13 @@ def temp_data_message(channel_id: str, paste: str):
 
 
 def temp_data_sub(channel_id: str):
-    data = (
-        '[{"operationName":"FollowButton_FollowUser","variables":{"input":{"disableNotifications":false,"targetID":"'
-        + channel_id
-        + '"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"800e7346bdf7e5278a3c1d3f21b2b56e2639928f86815677a7126b093b2fdd08"}}},{"operationName":"AvailableEmotesForChannelPaginated","variables":{"channelID":"'
-        + channel_id
-        + '","withOwner":true,"pageLimit":350},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"6c45e0ecaa823cc7db3ecdd1502af2223c775bdcfb0f18a3a0ce9a0b7db8ef6c"}}}]'
-    )
-
+    # data = (
+    #     '[{"operationName":"FollowButton_FollowUser","variables":{"input":{"disableNotifications":false,"targetID":"'
+    #     + channel_id
+    #     + '"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"800e7346bdf7e5278a3c1d3f21b2b56e2639928f86815677a7126b093b2fdd08"}}},{"operationName":"AvailableEmotesForChannelPaginated","variables":{"channelID":"'
+    #     + channel_id
+    #     + '","withOwner":true,"pageLimit":350},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"6c45e0ecaa823cc7db3ecdd1502af2223c775bdcfb0f18a3a0ce9a0b7db8ef6c"}}}]'
+    data = ('[{"operationName":"FollowButton_FollowUser","variables":{"input":{"disableNotifications":false,"targetID":"'+channel_id +
+            '"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"800e7346bdf7e5278a3c1d3f21b2b56e2639928f86815677a7126b093b2fdd08"}}},{"operationName":"AvailableEmotesForChannelPaginated","variables":{"channelID":"'+channel_id +
+            '","withOwner":true,"pageLimit":350},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"6c45e0ecaa823cc7db3ecdd1502af2223c775bdcfb0f18a3a0ce9a0b7db8ef6c"}}}]').encode()
     return data

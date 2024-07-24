@@ -15,6 +15,7 @@ router_get_data_to_sent = Blueprint("router_get_data_to_sent", __name__)
 def send_data():
     data = request.get_json()  # Получите данные из запроса
     response = {"status": "success", "data_received": data}
+    print(data)
     status_list = send_message(
         data.get("accounts"),
         data.get("channel_id"),
@@ -46,5 +47,5 @@ def send_id():
 
 @router_get_data_to_sent.route("/shutdown", methods=["GET"])
 def shutdown():
-    # os.kill(os.getpid(), signal.SIGINT)
+    os.kill(os.getpid(), signal.SIGINT)
     return "Server shutting down..."

@@ -7,6 +7,7 @@ from source.template.templates import temp_data_message, temp_data_sub, temp_hea
 def send_message(
     accounts: dict, channel_id: str, paste: str, sleep: int, sub: bool, split: bool
 ):
+    paste = paste.replace("\n", " ")
     status_code_list: list = []
     if split:
         index = 0

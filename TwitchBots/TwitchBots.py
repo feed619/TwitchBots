@@ -22,13 +22,6 @@ async def run_app(app_path):
     await subprocess.Popen(['python', app_path], check=True, startupinfo=startupinfo)
 
 
-async def run_widget(widget_path):
-    startupinfo = subprocess.STARTUPINFO()
-    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-    startupinfo.wShowWindow = subprocess.SW_HIDE
-    await subprocess.Popen([widget_path], check=True, startupinfo=startupinfo)
-
-
 async def run_python_script_async(script_path):
     try:
         # Запуск Python-скрипта
@@ -54,6 +47,13 @@ async def run_python_script_async(script_path):
                 f"Error: Python script {script_path} exited with code {return_code}")
     except Exception as e:
         print(f"Error while running {script_path}: {e}")
+
+
+async def run_widget(widget_path):
+    startupinfo = subprocess.STARTUPINFO()
+    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+    startupinfo.wShowWindow = subprocess.SW_HIDE
+    await subprocess.Popen([widget_path], check=True, startupinfo=startupinfo)
 
 
 async def run_exe_async(exe_path):

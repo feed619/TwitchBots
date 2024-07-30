@@ -7,5 +7,6 @@ src/config/
 build-widget-Desktop_Qt_6_6_3_MinGW_64_bit-Debug
 build-widget-Desktop_Qt_6_6_3_MinGW_64_bit-Release
 widget/CMakeLists.txt
-
-
+widget/data/
+widget/data/treeAcc
+widget/data/treeChannel

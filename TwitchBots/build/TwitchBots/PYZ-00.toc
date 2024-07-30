@@ -1,4 +1,4 @@
-('C:\\Проекты\\TwitchBots\\build-widget-Desktop_Qt_6_6_3_MinGW_64_bit-Release\\build\\TwitchBots\\PYZ-00.pyz',
+('C:\\Проекты\\TwitchBots\\TwitchBots\\build\\TwitchBots\\PYZ-00.pyz',
  [('_compat_pickle',
    'C:\\Users\\azimo\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\_compat_pickle.py',
    'PYMODULE'),

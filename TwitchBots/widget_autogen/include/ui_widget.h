@@ -282,14 +282,14 @@ public:
         ButtonClear->setText(QCoreApplication::translate("widget", "clear", nullptr));
         labelNameAddPaste->setText(QCoreApplication::translate("widget", "          paste", nullptr));
         addPaste->setText(QCoreApplication::translate("widget", "add", nullptr));
-        labelSleep->setText(QCoreApplication::translate("widget", "    sleep", nullptr));
+        labelSleep->setText(QCoreApplication::translate("widget", "sleep", nullptr));
         labelNameSelectChannel->setText(QCoreApplication::translate("widget", "   select channel", nullptr));
         sizeText->setText(QCoreApplication::translate("widget", "symbols  0", nullptr));
-        checkBoxSplit->setText(QCoreApplication::translate("widget", "        split", nullptr));
+        checkBoxSplit->setText(QCoreApplication::translate("widget", "      split", nullptr));
         addSybSplit->setText(QCoreApplication::translate("widget", "^", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(Message), QCoreApplication::translate("widget", "Message", nullptr));
         QTreeWidgetItem *___qtreewidgetitem = treeWidgetAcc->headerItem();
-        ___qtreewidgetitem->setText(1, QCoreApplication::translate("widget", "authorization", nullptr));
+        ___qtreewidgetitem->setText(1, QCoreApplication::translate("widget", "auth-token", nullptr));
         ___qtreewidgetitem->setText(0, QCoreApplication::translate("widget", "Nickname", nullptr));
         ButtonAddAcc->setText(QCoreApplication::translate("widget", "add", nullptr));
         ButtonDeleteAcc->setText(QCoreApplication::translate("widget", "delete", nullptr));

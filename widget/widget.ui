@@ -198,7 +198,7 @@
        </font>
       </property>
       <property name="text">
-       <string>    sleep</string>
+       <string>sleep</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>
@@ -326,7 +326,7 @@
       <set>Qt::ImhNone</set>
      </property>
      <property name="text">
-      <string>        split</string>
+      <string>      split</string>
      </property>
      <property name="iconSize">
       <size>
@@ -406,7 +406,7 @@
       </column>
       <column>
        <property name="text">
-        <string>authorization</string>
+        <string>auth-token</string>
        </property>
        <property name="font">
         <font>

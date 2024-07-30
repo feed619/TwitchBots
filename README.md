@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/logo.png" /></p>
+<p align="center"><img src="docs/logo_tb.png" /></p>
 <h2><p align="center">TwitchBots - отправляй сообщения в чат Twitch с нескольких аккаунтов.</p></h2>
 
 ## Функциональность
